@@ -1,5 +1,7 @@
 <?php
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,3 +19,13 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'MainController@home')->name('home');
+
+Route::get('/test', function () {
+  return Inertia::render('Test', [
+    'message' => 'Inertia + Vue3 已成功运行 🚀',
+  ]);
+});
+
+Route::get('/login', function () {
+  return Inertia::render('Auth/Login');
+})->name('login');

@@ -44,6 +44,22 @@ Website: http://www.seantheme.com/color-admin/
 	<!-- ======== APPLICATION SETTING ======== -->
 	Application Controller
 */
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+import { ZiggyVue } from 'ziggy-js'
+
+createInertiaApp({
+  resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
+  setup({ el, App, props, plugin }) {
+    createApp({ render: () => h(App, props) })
+      .use(plugin)
+      .use(ZiggyVue, Ziggy) // 注册 Ziggy 插件
+      .mount(el)
+  },
+})
+/*
+
 var app = {
 	id: '#app',
 	class: 'app',
@@ -621,8 +637,8 @@ var setInnerHTML = function(elm, html) {
 };
 
 
-/* 1. Handle Scrollbar
------------------------------------------------- */
+/!* 1. Handle Scrollbar
+------------------------------------------------ *!/
 var handleScrollbar = function() {
 	"use strict";
 	
@@ -661,8 +677,8 @@ var generateScrollbar = function(elm) {
 };
 
 
-/* 2. Handle Sidebar Menu
------------------------------------------------- */
+/!* 2. Handle Sidebar Menu
+------------------------------------------------ *!/
 var handleSidebarMenuToggle = function(menus, expandTime) {
 	menus.map(function(menu) {
 		menu.onclick = function(e) {
@@ -725,8 +741,8 @@ var handleSidebarMenu = function() {
 };
 
 
-/* 3. Handle Sidebar Toggle
------------------------------------------------- */
+/!* 3. Handle Sidebar Toggle
+------------------------------------------------ *!/
 var handleSidebarToggle = function() {
   "use strict";
 
@@ -760,8 +776,8 @@ var handleSidebarToggle = function() {
 };
 
 
-/* 4. Handle Sidebar End
------------------------------------------------- */
+/!* 4. Handle Sidebar End
+------------------------------------------------ *!/
 var handleSidebarEndToggle = function() {
   "use strict";
 
@@ -813,8 +829,8 @@ var handleSidebarEndToggle = function() {
 };
 
 
-/* 5. Handle Sidebar Minified
------------------------------------------------- */
+/!* 5. Handle Sidebar Minified
+------------------------------------------------ *!/
 var handleSidebarMinify = function() {
   "use strict";
 	
@@ -845,8 +861,8 @@ var handleSidebarMinify = function() {
 };
 
 
-/* 6. Handle Page Loader 
------------------------------------------------- */
+/!* 6. Handle Page Loader
+------------------------------------------------ *!/
 var handlePageLoader = function() {
   "use strict";
 	
@@ -861,8 +877,8 @@ var handlePageLoader = function() {
 };
 
 
-/* 7. Handle Panel Action
------------------------------------------------- */
+/!* 7. Handle Panel Action
+------------------------------------------------ *!/
 var handlePanelAction = function() {
 	"use strict";
 	
@@ -972,8 +988,8 @@ var handlePanelAction = function() {
 };
 
 
-/* 8. Handle Panel Draggable - jQuery
------------------------------------------------- */
+/!* 8. Handle Panel Draggable - jQuery
+------------------------------------------------ *!/
 var handlePanelDraggable = function() {
 	"use strict";
 	if (jQuery) {
@@ -993,8 +1009,8 @@ var handlePanelDraggable = function() {
 };
 
 
-/* 9. Handle Tooltip Popover Activation
------------------------------------------------- */
+/!* 9. Handle Tooltip Popover Activation
+------------------------------------------------ *!/
 var handelTooltipPopoverActivation = function() {
 	"use strict";
 	
@@ -1013,8 +1029,8 @@ var handelTooltipPopoverActivation = function() {
 };
 
 
-/* 10. Handle Scroll to Top Button
------------------------------------------------- */
+/!* 10. Handle Scroll to Top Button
+------------------------------------------------ *!/
 var handleScrollToTopButton = function() {
 	"use strict";
 	
@@ -1042,8 +1058,8 @@ var handleScrollToTopButton = function() {
 };
 
 
-/* 11. Handle Theme Panel
------------------------------------------------- */
+/!* 11. Handle Theme Panel
+------------------------------------------------ *!/
 var handleThemePanel = function() {
 	"use strict";
 	
@@ -1251,8 +1267,8 @@ var handleThemePanel = function() {
 };
 
 
-/* 12. Handle Save Panel Position Function - jQuery
------------------------------------------------- */
+/!* 12. Handle Save Panel Position Function - jQuery
+------------------------------------------------ *!/
 var handleSavePanelPosition = function(element) {
 	"use strict";
 	if (jQuery && $('.' + app.panel.sortable.class).length !== 0) {
@@ -1284,8 +1300,8 @@ var handleSavePanelPosition = function(element) {
 };
 
 
-/* 13. Handle Draggable Panel Local Storage Function - jQuery
------------------------------------------------- */
+/!* 13. Handle Draggable Panel Local Storage Function - jQuery
+------------------------------------------------ *!/
 var handleLocalStorage = function() {
 	"use strict";
 	try {
@@ -1326,8 +1342,8 @@ var handleLocalStorage = function() {
 };
 
 
-/* 14. Handle Reset Local Storage
------------------------------------------------- */
+/!* 14. Handle Reset Local Storage
+------------------------------------------------ *!/
 var handleResetLocalStorage = function() {
 	"use strict";
 	
@@ -1381,8 +1397,8 @@ var handleResetLocalStorage = function() {
 };
 
 
-/* 15. Handle Unlimited Nav Tabs
------------------------------------------------- */
+/!* 15. Handle Unlimited Nav Tabs
+------------------------------------------------ *!/
 var handleUnlimitedTabsRender = function() {
     
 	// function handle tab overflow scroll width 
@@ -1591,8 +1607,8 @@ var handleUnlimitedTabsRender = function() {
 };
 
 
-/* 16. Handle Top Menu - Unlimited Top Menu Render
------------------------------------------------- */
+/!* 16. Handle Top Menu - Unlimited Top Menu Render
+------------------------------------------------ *!/
 var handleUnlimitedTopMenuRender = function() {
 	"use strict";
 	
@@ -1882,8 +1898,8 @@ var handleUnlimitedTopMenuRender = function() {
 };
 
 
-/* 17. Handle Top Menu - Sub Menu Toggle
------------------------------------------------- */
+/!* 17. Handle Top Menu - Sub Menu Toggle
+------------------------------------------------ *!/
 var handleTopMenuToggle = function(menus, forMobile = false) {
 	menus.map(function(menu) {
 		menu.onclick = function(e) {
@@ -1935,8 +1951,8 @@ var handleTopMenuSubMenu = function() {
 };
 
 
-/* 19. Handle Top Menu - Mobile Top Menu Toggle
------------------------------------------------- */
+/!* 19. Handle Top Menu - Mobile Top Menu Toggle
+------------------------------------------------ *!/
 var handleTopMenuMobileToggle = function() {
 	"use strict";
 	
@@ -1957,8 +1973,8 @@ var handleTopMenuMobileToggle = function() {
 };
 
 
-/* 20. Handle Page Scroll Class
------------------------------------------------- */
+/!* 20. Handle Page Scroll Class
+------------------------------------------------ *!/
 var handlePageScrollClass = function() {
 	var checkScroll = function() {
 		var target = document.querySelector('.' + app.class);
@@ -1976,8 +1992,8 @@ var handlePageScrollClass = function() {
 };
 
 
-/* 21. Handle Toggle Navbar Profile
------------------------------------------------- */
+/!* 21. Handle Toggle Navbar Profile
+------------------------------------------------ *!/
 var handleToggleNavProfile = function() {
 	var elm = document.querySelector('['+ app.sidebar.profile.toggleAttr +']');
 	if (elm) {
@@ -2003,8 +2019,8 @@ var handleToggleNavProfile = function() {
 };
 
 
-/* 22. Handle Sidebar Scroll Memory
------------------------------------------------- */
+/!* 22. Handle Sidebar Scroll Memory
+------------------------------------------------ *!/
 var handleSidebarScrollMemory = function() {
 	if (!app.isMobile) {
 		try {
@@ -2027,8 +2043,8 @@ var handleSidebarScrollMemory = function() {
 };
 
 
-/* 23. Handle Sidebar Minify Sub Menu
------------------------------------------------- */
+/!* 23. Handle Sidebar Minify Sub Menu
+------------------------------------------------ *!/
 var handleGetHiddenMenuHeight = function(elm) {
 	elm.setAttribute('style', 'position: absolute; visibility: hidden; display: block !important');
 	var targetHeight  = elm.clientHeight;
@@ -2234,8 +2250,8 @@ var handleSidebarMinifyFloatMenu = function() {
 };
 
 
-/* 24. Handle Ajax Mode
------------------------------------------------- */
+/!* 24. Handle Ajax Mode
+------------------------------------------------ *!/
 var handleAjaxMode = function() {
 	var setting;
 	
@@ -2697,8 +2713,8 @@ var handleClearPageOption = function(option) {
 };
 
 
-/* 25. Handle Float Navbar Search
------------------------------------------------- */
+/!* 25. Handle Float Navbar Search
+------------------------------------------------ *!/
 var handleToggleNavbarSearch = function() {
 	var elm = document.querySelector('['+ app.header.floatingForm.toggleAttr +']');
 	if (elm) {
@@ -2718,8 +2734,8 @@ var handleToggleNavbarSearch = function() {
 };
 
 
-/* 26. Handle Animation
------------------------------------------------- */
+/!* 26. Handle Animation
+------------------------------------------------ *!/
 var convertNumberWithCommas = function(x) {
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
@@ -2785,8 +2801,8 @@ var handleAnimation = function() {
 };
 
 
-/* 27. Handle Sidebar Search
------------------------------------------------- */
+/!* 27. Handle Sidebar Search
+------------------------------------------------ *!/
 var handleSidebarSearch = function() {
 	var elms = [].slice.call(document.querySelectorAll('['+ app.sidebar.search.toggleAttr + ']'));
 	if (elms) {
@@ -2893,8 +2909,8 @@ var handleSidebarSearch = function() {
 };
 
 
-/* 28. Handle Toggle Class
------------------------------------------------- */
+/!* 28. Handle Toggle Class
+------------------------------------------------ *!/
 var handleToggleClass = function() {
 	var elms = [].slice.call(document.querySelectorAll('['+ app.toggleClass.toggleAttr + ']'));
 	if (elms) {
@@ -2915,8 +2931,8 @@ var handleToggleClass = function() {
 };
 
 
-/* 29. Handle Dismiss Class
------------------------------------------------- */
+/!* 29. Handle Dismiss Class
+------------------------------------------------ *!/
 var handleDismissClass = function() {
 	var elms = [].slice.call(document.querySelectorAll('['+ app.dismissClass.toggleAttr + ']'));
 	if (elms) {
@@ -2937,8 +2953,8 @@ var handleDismissClass = function() {
 };
 
 
-/* 30. Handle Hex To Rgba
------------------------------------------------- */
+/!* 30. Handle Hex To Rgba
+------------------------------------------------ *!/
 var stringToColor = function(str) {
   var hash = 0;
   for (var i = 0; i < str.length; i++) {
@@ -2969,8 +2985,8 @@ var hexToRgba = function(hex, transparent = 1, repeat = false) {
 };
 
 
-/* 31. Handle Get Css Variable
------------------------------------------------- */
+/!* 31. Handle Get Css Variable
+------------------------------------------------ *!/
 var handleCssVariable = function() {
 	var rootStyle = getComputedStyle(document.body);
 	
@@ -2990,8 +3006,8 @@ var handleCssVariable = function() {
 };
 
 
-/* 32. Handle Scroll To
------------------------------------------------- */
+/!* 32. Handle Scroll To
+------------------------------------------------ *!/
 var handleScrollTo = function() {
 	var elmTriggerList = [].slice.call(document.querySelectorAll('['+ app.scrollTo.toggleAttr +']'));
 	var elmList = elmTriggerList.map(function(elm) {
@@ -3015,8 +3031,8 @@ var handleScrollTo = function() {
 };
 
 
-/* Application Controller
------------------------------------------------- */
+/!* Application Controller
+------------------------------------------------ *!/
 var App = function () {
 	"use strict";
 	
@@ -3139,4 +3155,4 @@ if (document.readyState !== 'loading') {
 		App.init();
 		App.restartGlobalFunction();
 	});
-}
+}*/
