@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lexicon;
 use App\Models\LexiconWord;
+use App\Services\BaiduFanyiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -45,5 +46,21 @@ class WyLexiconController extends Controller
       'lexiconname' => "词库 #$id",
       'words' => $list ?? [],
     ]);
+  }
+
+  // API 接口：获取单词音频
+  public function getWordAudio(Request $request)
+  {
+    $text = $request->input('text');
+
+
+    $baiduFanyiService = new BaiduFanyiService(
+      config('services.baidu_fanyi.appid'),
+      config('services.baidu_fanyi.secret')
+    );
+
+    $result = $baiduFanyiService->getAudioByText($text);
+
+    return response()->json($result);
   }
 }

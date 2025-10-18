@@ -71,4 +71,41 @@ class BaiduFanyiService
     if (!$args) return '';
     return http_build_query($args, '', '&', PHP_QUERY_RFC3986);
   }
+  public function getAudioByText(string $text, int $perType = 0): array
+  {
+    $text = trim(strtolower($text));
+    $return = ['ret' => 'fail'];
+
+    if (!$text) {
+      $return['tips'] = '参数错误';
+      return $return;
+    }
+
+    try {
+      //$client = new \BaiduFanyiApi($this->apiKey, $this->secretKey);
+
+      // 翻译 + TTS
+      $result = $this->translate($text, 'en', 'zh');
+
+      if (!is_array($result) || empty($result['trans_result'][0])) {
+        return ['ret' => 'fail', 'tips' => '语音合成失败'];
+      }
+
+      $data = $result['trans_result'][0];
+      $dict = json_decode($data['dict'], true);
+
+      $return['ret'] = 'success';
+      $return['data'] = $data;
+      $return['url'] = $data['src_tts'] ?? '';
+      $return['symbols'] = $dict['word_result']['simple_means']['symbols'] ?? [];
+      $return['means'] = isset($dict['word_result']['simple_means']['word_means'])
+        ? implode('; ', $dict['word_result']['simple_means']['word_means'])
+        : '';
+
+    } catch (Exception $e) {
+      $return['tips'] = $e->getMessage();
+    }
+
+    return $return;
+  }
 }

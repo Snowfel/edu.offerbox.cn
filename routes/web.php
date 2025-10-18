@@ -14,16 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-	return redirect('/home');
-});
-
-
-Route::get('/home', 'MainController@home')->name('home');
-
-Route::get('/test', function () {
-  return Inertia::render('Test', [
-    'message' => 'Inertia + Vue3 已成功运行 🚀',
-  ]);
+	return redirect('/wy/vocab/');
 });
 
 Route::get('/login', function () {
