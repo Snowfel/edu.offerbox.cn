@@ -46,7 +46,7 @@ const isLoggedIn = ref(false)
 const form = useForm({ pwd: '' })
 
 onMounted(() => {
-  const savedId = sessionStorage.getItem('wy_lexicon_loginid')
+  const savedId = sessionStorage.getItem('user_loginid')
   if (!savedId) {
     isLoggedIn.value = false
     return
@@ -57,7 +57,7 @@ onMounted(() => {
       isLoggedIn.value = true
       router.visit(route('wy.lexicon.index'))
     } else {
-      sessionStorage.removeItem('wy_lexicon_loginid')
+      sessionStorage.removeItem('user_loginid')
     }
   })
 })
@@ -73,7 +73,7 @@ function handleLogin() {
     onSuccess: (res) => {
       const data = res.props ?? {}
       if (data.ret === 'success') {
-        sessionStorage.setItem('wy_lexicon_loginid', data.loginid)
+        sessionStorage.setItem('user_loginid', data.loginid)
         isLoggedIn.value = true
       } else {
         alert('登录码错误?')

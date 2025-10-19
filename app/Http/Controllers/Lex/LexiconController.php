@@ -33,7 +33,7 @@ class VocabController extends Controller
     $pwd = trim($request->input('pwd', ''));
     if ($pwd === config('services.lexicon.login_code')) {
       $loginid = Str::uuid()->toString();
-      session(['wy_lexicon_loginid' => $loginid]);
+      session(['user_loginid' => $loginid]);
       return response()->json(['ret' => 'success', 'loginid' => $loginid]);
     }
     return response()->json(['ret' => 'fail']);
@@ -45,7 +45,7 @@ class VocabController extends Controller
   public function check(Request $request)
   {
     $loginid = $request->input('loginid');
-    $logined = session('wy_lexicon_loginid') === $loginid ? 1 : 0;
+    $logined = session('user_loginid') === $loginid ? 1 : 0;
     return response()->json(['ret' => 'success', 'logined' => $logined]);
   }
 }

@@ -17,12 +17,8 @@ class LoginController extends Controller
     $pwd = $request->input('pwd');
     if ($pwd === 'hy2025') {
       $loginid = uniqid(); // 可以用 ULID 或随机字符串
-      $request->session()->put('wy_lexicon_loginid', $loginid);
-
-      return redirect()->route('wy.lexicon.index')->with([
-        'loginid' => $loginid,
-        'ret' => 'success',
-      ]);
+      $request->session()->put('user_loginid', $loginid);
+      return response()->json(['ret' => 'success', 'logined' => 1, 'loginid' => $loginid]);
     }
 
     return redirect()->back()->withErrors(['pwd' => '登录码错误']);
@@ -31,7 +27,7 @@ class LoginController extends Controller
   public function check(Request $request)
   {
     $loginid = $request->input('loginid');
-    if ($loginid && $loginid === $request->session()->get('wy_lexicon_loginid')) {
+    if ($loginid && $loginid === $request->session()->get('user_loginid')) {
       return response()->json(['ret' => 'success', 'logined' => 1]);
     }
 

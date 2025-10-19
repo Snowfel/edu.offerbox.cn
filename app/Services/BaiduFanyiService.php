@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Exception;
+
 class BaiduFanyiService
 {
   protected string $apiUrl = 'https://fanyi-api.baidu.com/api/trans/vip/translate';
@@ -82,8 +84,6 @@ class BaiduFanyiService
     }
 
     try {
-      //$client = new \BaiduFanyiApi($this->apiKey, $this->secretKey);
-
       // 翻译 + TTS
       $result = $this->translate($text, 'en', 'zh');
 
