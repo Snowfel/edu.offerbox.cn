@@ -7,3 +7,10 @@ Route::get('/a-fast', function () {
 });
 
 Route::post('/a-fast/submit', [App\Http\Controllers\AssessmentController::class, 'storeAfast']);
+
+
+Route::get('/performance', function () {
+  return Inertia::render('Assessments/Performance');
+});
+
+Route::post('/performance/submit', [App\Http\Controllers\AssessmentController::class, 'storePerformance']);
