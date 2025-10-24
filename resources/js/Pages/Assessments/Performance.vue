@@ -3,27 +3,28 @@
     <h1 class="text-2xl font-bold mb-6 text-center">人才盘点绩效测评</h1>
 
     <!-- 测评卡片 -->
-    <div class="bg-white rounded-2xl shadow p-6" v-if="!store.finished">
-      <p class="text-lg font-semibold mb-4">{{ store.questions[store.currentIndex]?.text }}</p>
+    <div v-if="!store.finished" class="bg-white rounded-2xl shadow p-6">
+      <div v-for="(q, idx) in store.currentQuestions" :key="idx" class="mb-4">
+        <p class="text-lg font-semibold mb-2">{{ q.text }}</p>
 
-      <!-- 五点量表 -->
-      <div class="grid grid-cols-5 gap-4 mb-6">
-        <label
-          v-for="n in 5"
-          :key="n"
-          class="flex flex-col items-center cursor-pointer border rounded-lg p-2 hover:border-blue-500"
-          :class="{'border-blue-600 bg-blue-50': store.answers[store.currentIndex] === n}"
-        >
-          <input
-            type="radio"
-            :name="'q' + store.currentIndex"
-            :value="n"
-            v-model.number="store.answers[store.currentIndex]"
-            class="hidden"
-          />
-          <span class="text-sm">{{ scaleLabels[n - 1] }}</span>
-          <span class="mt-1 text-lg font-bold">{{ n }}</span>
-        </label>
+        <div class="grid grid-cols-5 gap-4">
+          <label
+            v-for="n in 5"
+            :key="n"
+            class="flex flex-col items-center cursor-pointer border rounded-lg p-2 hover:border-blue-500"
+            :class="{'border-blue-600 bg-blue-50': store.answers[store.currentPage * store.pageSize + idx] === n}"
+          >
+            <input
+              type="radio"
+              :name="'q' + (store.currentPage * store.pageSize + idx)"
+              :value="n"
+              v-model.number="store.answers[store.currentPage * store.pageSize + idx]"
+              class="hidden"
+            />
+            <span class="text-sm">{{ scaleLabels[n - 1] }}</span>
+            <span class="mt-1 text-lg font-bold">{{ n }}</span>
+          </label>
+        </div>
       </div>
 
       <!-- 进度条 -->
@@ -34,21 +35,22 @@
         <p class="text-sm mt-1 text-gray-600">{{ store.progress.toFixed(0) }}% 已完成</p>
       </div>
 
-      <!-- 控制按钮 -->
+      <!-- 分页按钮 -->
       <div class="flex justify-between">
         <button
           class="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-          :disabled="store.currentIndex === 0"
-          @click="store.prevQuestion"
+          :disabled="store.currentPage === 0"
+          @click="store.prevPage"
         >
-          上一题
+          上一页
         </button>
+
         <button
           class="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-          :disabled="store.answers[store.currentIndex] === null"
+          :disabled="!isCurrentPageCompleted"
           @click="nextOrSubmit"
         >
-          {{ store.currentIndex === store.questions.length - 1 ? '提交' : '下一题' }}
+          {{ store.currentPage === store.totalPages -1 ? '提交' : '下一页' }}
         </button>
       </div>
     </div>
@@ -62,7 +64,7 @@
         <p class="text-lg mb-4">绩效等级：<strong>{{ store.level }}</strong></p>
         <button
           class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-          @click="store.restart"
+          @click="store.restart(store.pageSize)"
         >
           重新测评
         </button>
@@ -72,34 +74,32 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { usePerformanceStore } from '@/stores/usePerformanceStore'
 
 const store = usePerformanceStore()
+const scaleLabels = ['非常不同意','不同意','一般','同意','非常同意']
 
-const scaleLabels = [
-  '非常不同意',
-  '不同意',
-  '一般',
-  '同意',
-  '非常同意'
-]
-
+// 页面首次加载初始化题目
 onMounted(() => {
   if (!store.questions || store.questions.length === 0) {
-    store.init()
+    store.init(3) // 每页显示3题
   }
 })
 
+// 检查当前页题目是否都已作答
+const isCurrentPageCompleted = computed(() => {
+  const start = store.currentPage * store.pageSize
+  const end = start + store.pageSize
+  const slice = store.answers.slice(start, end)
+  return slice.every(v => v !== null)
+})
+
 const nextOrSubmit = () => {
-  if (store.currentIndex === store.questions.length - 1) {
+  if (store.currentPage === store.totalPages - 1) {
     store.submit()
   } else {
-    store.nextQuestion()
+    store.nextPage()
   }
 }
 </script>
-
-<style scoped>
-/* 可以和 AFAST.vue 共享 Tailwind 风格，无需额外样式 */
-</style>
