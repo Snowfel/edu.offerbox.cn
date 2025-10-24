@@ -18,7 +18,7 @@
         </div>
 
         <div class="bg-white p-6 rounded-2xl shadow mb-6">
-          <h2 class="text-lg font-semibold mb-4">{{ store.questions[store.currentIndex] }}</h2>
+          <h2 class="text-lg font-semibold mb-4">{{ store.questions[store.currentIndex]?.text }}</h2>
           <div class="space-y-3">
             <label
               v-for="n in 5"
@@ -78,8 +78,17 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useAfastStore } from '@/stores/useAfastStore'
 
 const store = useAfastStore()
+
+// 初始化问卷
+onMounted(() => {
+  if (!store.questions || store.questions.length === 0) {
+    store.init()
+  }
+})
+
 const scaleLabels = ['非常不同意', '不同意', '一般', '同意', '非常同意']
 </script>
