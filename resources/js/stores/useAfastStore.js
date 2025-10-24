@@ -6,9 +6,11 @@ export const useAfastStore = defineStore('afast', {
     answers: [],
     currentIndex: 0,
     finished: false,
-    scores: {},
-    total: 0,
+    scores: {}, // 每个维度5分制平均分
+    total: 0,   // 综合5分制平均分
     level: '',
+    scoresPercent: {}, // 每个维度百分制平均分
+    totalPercent: 0, // 综合百分制
   }),
 
   getters: {
@@ -75,6 +77,7 @@ export const useAfastStore = defineStore('afast', {
       this.scores = {}
       this.total = 0
       this.level = ''
+      this.totalPercent = 0
     },
 
     nextQuestion() {
@@ -97,15 +100,19 @@ export const useAfastStore = defineStore('afast', {
     calculateScores() {
       const dims = ['achievement', 'learning', 'thinking', 'social']
       const scores = {}
+      const scoresPercent = {}
 
       dims.forEach((dim, i) => {
         const start = i * 8
         const slice = this.answers.slice(start, start + 8)
         scores[dim] = this.avg(slice)
+        scoresPercent[dim] = this.avg(slice) * 20
       })
 
       this.scores = scores
+      this.scoresPercent = scoresPercent
       this.total = (scores.achievement + scores.learning + scores.thinking + scores.social) / 4
+      this.totalPercent = (this.total / 5) * 100 // 5分制转百分制
       this.level = this.getLevel(this.total)
     },
 
@@ -115,10 +122,10 @@ export const useAfastStore = defineStore('afast', {
     },
 
     getLevel(score) {
-      if (score >= 90/100*5) return '极高潜力'
-      if (score >= 80/100*5) return '高潜力'
-      if (score >= 70/100*5) return '中等潜力'
-      if (score >= 60/100*5) return '潜力有限'
+      if (score >= 4.5) return '极高潜力'
+      if (score >= 4.0) return '高潜力'
+      if (score >= 3.0) return '中等潜力'
+      if (score >= 2.0) return '潜力有限'
       return '潜力较低'
     },
 

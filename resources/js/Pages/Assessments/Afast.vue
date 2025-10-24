@@ -62,12 +62,12 @@
       <div v-else class="bg-white p-8 rounded-2xl shadow text-center">
         <h2 class="text-xl font-bold mb-4">测评结果</h2>
         <div class="mb-6">
-          <p>追求卓越：{{ store.scores.achievement?.toFixed(2) }}</p>
-          <p>敏锐学习：{{ store.scores.learning?.toFixed(2) }}</p>
-          <p>系统思考：{{ store.scores.thinking?.toFixed(2) }}</p>
-          <p>人际通达：{{ store.scores.social?.toFixed(2) }}</p>
+          <p>追求卓越：{{ store.scores.achievement?.toFixed(2) }} ({{ store.scoresPercent.achievement?.toFixed(0) }})</p>
+          <p>敏锐学习：{{ store.scores.learning?.toFixed(2) }} ({{ store.scoresPercent.learning?.toFixed(0) }})</p>
+          <p>系统思考：{{ store.scores.thinking?.toFixed(2) }} ({{ store.scoresPercent.thinking?.toFixed(0) }})</p>
+          <p>人际通达：{{ store.scores.social?.toFixed(2) }} ({{ store.scoresPercent.social?.toFixed(0) }})</p>
         </div>
-        <p class="text-lg font-semibold mb-2">综合潜力得分：{{ store.total.toFixed(2) }}</p>
+        <p class="text-lg font-semibold mb-2">综合潜力得分：{{ store.total.toFixed(2) }} ({{ store.totalPercent.toFixed(0) }})</p>
         <p class="text-xl font-bold text-blue-600">{{ store.level }}</p>
         <button class="mt-6 px-4 py-2 bg-gray-200 rounded-xl hover:bg-gray-300" @click="store.restart">
           重新测评
