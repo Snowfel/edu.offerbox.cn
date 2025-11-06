@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class LoginController extends Controller
@@ -28,6 +29,8 @@ class LoginController extends Controller
    */
   public function submit(Request $request)
   {
+    Log::error($request->input());
+
     $credentials = $request->only('email', 'password');
     $remember = $request->boolean('remember', false);
 
@@ -39,9 +42,12 @@ class LoginController extends Controller
 
     // 尝试使用 admin guard 登录
     if (Auth::guard('admin')->attempt($credentials, $remember)) {
+      Log::error('login success!');
       $request->session()->regenerate();
 
       return redirect()->intended(route('admin.dashboard'));
+    } else {
+      Log::error('login failed!');
     }
 
     // 登录失败，返回错误 flash

@@ -12,6 +12,7 @@ class Admin extends Authenticatable
 
   protected $guard = 'admin';
 
+  //Auth::guard('admin')->attempt(['email' => 'calchas@vip.qq.com', 'password' => '12345678']);
   protected $fillable = [
     'name',
     'email',
@@ -22,7 +23,6 @@ class Admin extends Authenticatable
     'password',
     'remember_token',
   ];
-
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];

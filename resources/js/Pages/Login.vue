@@ -41,7 +41,7 @@
 
         <!-- 记住我 -->
         <div class="mb-4 flex items-center space-x-2">
-          <input type="checkbox" v-model="form.remember" id="remember" />
+          <input type="checkbox" v-model="form.remember" id="remember"/>
           <label for="remember" class="text-gray-700">记住我</label>
         </div>
 
@@ -59,9 +59,7 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3'
-//import route from 'ziggy-js'
-//import { Ziggy } from '@/ziggy'
+import {useForm, usePage} from '@inertiajs/vue3'
 
 const props = defineProps({
   guard: {
@@ -85,7 +83,13 @@ const form = useForm({
 const submit = () => {
   const routeName = props.guard === 'admin' ? 'admin.login.submit' : 'user.login.submit'
   form.post(route(routeName), {
-    onSuccess: () => form.reset('password'),
+    onSuccess: () => {
+      form.reset('password')
+      console.log(`登录成功`)
+    },
+    onError: (errors) => {
+      console.log(errors)
+    }
   })
 }
 </script>
