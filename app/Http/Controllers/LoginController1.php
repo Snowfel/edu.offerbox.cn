@@ -13,7 +13,7 @@ class LoginController extends Controller
    */
   public function index(Request $request)
   {
-    return Inertia::render('Login/Index', [
+    return Inertia::render('Login/Login', [
       'guard' => $request->route()->getPrefix() === 'admin/login' ? 'admin' : 'web',
     ]);
   }

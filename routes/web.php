@@ -18,6 +18,10 @@ Route::get('/', function () {
 	return redirect('/wy/vocab/');
 });
 
+Route::get('login', function () {
+  return redirect(route('admin.login'));
+})->name('login');
+
 // 用户首页
 Route::middleware(['auth:web'])->prefix('user')->name('user.')->group(function () {
   Route::get('dashboard', function () {
