@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WyLexiconAdminController;
-use App\Http\Controllers\WyLexiconController;
+use App\Http\Controllers\Auth\VocabularyController;
+use App\Http\Controllers\Auth\WyLexiconController;
 
 Route::prefix('wy/vocab')->group(function () {
   Route::get('/', [WyLexiconController::class, 'index'])->name('wy.lexicon.index');
@@ -14,10 +14,10 @@ Route::prefix('wy/vocab')->group(function () {
 });
 
 Route::prefix('wy/admin/lexicon')->middleware(['web','auth'])->group(function () {
-  Route::get('/', [WyLexiconAdminController::class, 'index'])->name('wy.lexicon.admin.index');
-  Route::get('/create', [WyLexiconAdminController::class, 'create'])->name('wy.lexicon.admin.create');
-  Route::post('/', [WyLexiconAdminController::class, 'store'])->name('wy.lexicon.admin.store');
-  Route::get('/{id}/edit', [WyLexiconAdminController::class, 'edit'])->name('wy.lexicon.admin.edit');
-  Route::put('/{id}', [WyLexiconAdminController::class, 'update'])->name('wy.lexicon.admin.update');
-  Route::delete('/{id}', [WyLexiconAdminController::class, 'destroy'])->name('wy.lexicon.admin.destroy');
+  Route::get('/', [VocabularyController::class, 'index'])->name('wy.lexicon.admin.index');
+  Route::get('/create', [VocabularyController::class, 'create'])->name('wy.lexicon.admin.create');
+  Route::post('/', [VocabularyController::class, 'store'])->name('wy.lexicon.admin.store');
+  Route::get('/{id}/edit', [VocabularyController::class, 'edit'])->name('wy.lexicon.admin.edit');
+  Route::put('/{id}', [VocabularyController::class, 'update'])->name('wy.lexicon.admin.update');
+  Route::delete('/{id}', [VocabularyController::class, 'destroy'])->name('wy.lexicon.admin.destroy');
 });

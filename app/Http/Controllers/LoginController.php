@@ -3,35 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class LoginController extends Controller
 {
-  public function index()
+  /**
+   * 显示登录页面
+   */
+  public function index(Request $request)
   {
-    return Inertia::render('Login/Index'); // 单独登录页面
+    return Inertia::render('Login/Index', [
+      'guard' => $request->route()->getPrefix() === 'admin/login' ? 'admin' : 'web',
+    ]);
   }
+
+  /**
+   * 提交登录
+   */
   public function submit(Request $request)
   {
-    $pwd = $request->input('pwd');
-    if ($pwd === 'hy2025') {
-      $loginid = uniqid(); // 可以用 ULID 或随机字符串
-      $request->session()->put('user_loginid', $loginid);
-      return response()->json(['ret' => 'success', 'logined' => 1, 'loginid' => $loginid]);
+    $request->validate([
+      'email' => ['required','email'],
+      'password' => ['required'],
+      'remember' => ['nullable','boolean'],
+    ]);
+
+    $guard = $request->route()->getPrefix() === 'admin/login' ? 'admin' : 'web';
+
+    if (Auth::guard($guard)->attempt([
+      'email' => $request->email,
+      'password' => $request->password,
+    ], $request->remember)) {
+      $request->session()->regenerate();
+
+      return redirect()->intended($guard === 'admin' ? route('admin.word-libraries.index') : route('user.dashboard'));
     }
 
-    return redirect()->back()->withErrors(['pwd' => '登录码错误']);
+    return back()->withErrors([
+      'email' => '邮箱或密码错误',
+    ])->onlyInput('email');
   }
 
+  /**
+   * 登录状态检查（可用于 Ajax/前端验证）
+   */
   public function check(Request $request)
   {
-    $loginid = $request->input('loginid');
-    if ($loginid && $loginid === $request->session()->get('user_loginid')) {
-      return response()->json(['ret' => 'success', 'logined' => 1]);
-    }
+    $guard = $request->route()->getPrefix() === 'admin/login' ? 'admin' : 'web';
 
-    return response()->json(['ret' => 'fail', 'logined' => 0]);
+    return response()->json([
+      'logged_in' => Auth::guard($guard)->check(),
+      'user' => Auth::guard($guard)->user(),
+    ]);
   }
-
 }

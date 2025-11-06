@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Lexicon;
-use App\Models\LexiconWord;
+use App\Models\Word\Word\Lexicon;
+use App\Models\Word\Word\LexiconWord;
 
 class LexiconSeeder extends Seeder
 {

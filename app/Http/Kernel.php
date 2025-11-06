@@ -57,5 +57,6 @@ class Kernel extends HttpKernel
     'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     'wy.lexicon.auth' => \App\Http\Middleware\WyLexiconAuth::class,
+    'permission' => \App\Http\Middleware\CheckPermission::class,
   ];
 }
