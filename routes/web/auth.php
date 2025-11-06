@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
   Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });*/
 
-Route::prefix('user')->name('user.')->group(function () {
+/*Route::prefix('user')->name('user.')->group(function () {
   // 登录
   Route::get('login', [AuthController::class, 'showLogin'])->name('login.index');
   Route::post('login', [AuthController::class, 'login'])->name('login.submit');
@@ -36,7 +36,7 @@ Route::prefix('user')->name('user.')->group(function () {
   Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
   Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
   Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
-});
+});*/
 
 Route::post('/logout', function () {
   if (Auth::guard('admin')->check()) {
