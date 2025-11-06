@@ -14,7 +14,7 @@ class LoginController extends Controller
    */
   public function index()
   {
-    return Inertia::render('Admin/Login', [
+    return Inertia::render('Login', [
       'guard' => 'admin',
       'flash' => [
         'error' => session('error'),
