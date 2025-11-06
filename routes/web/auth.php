@@ -3,7 +3,8 @@ use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
+
+/*Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
   // 登录
   Route::get('login', [AuthController::class, 'showLogin'])->name('login');
   Route::post('login', [AuthController::class, 'login'])->name('login.submit');
@@ -18,7 +19,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
   Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
   Route::get('reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
   Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
-});
+});*/
 
 Route::prefix('user')->name('user.')->group(function () {
   // 登录

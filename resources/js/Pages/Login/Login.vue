@@ -5,7 +5,13 @@
         {{ guard === 'admin' ? '后台登录' : '用户登录' }}
       </h1>
 
+      <!-- 全局错误 -->
+      <div v-if="flash.error" class="text-red-500 text-center mb-4">
+        {{ flash.error }}
+      </div>
+
       <form @submit.prevent="submit">
+        <!-- 邮箱 -->
         <div class="mb-4">
           <label class="block text-gray-700 font-medium mb-1">邮箱</label>
           <input
@@ -19,6 +25,7 @@
           </p>
         </div>
 
+        <!-- 密码 -->
         <div class="mb-4">
           <label class="block text-gray-700 font-medium mb-1">密码</label>
           <input
@@ -32,54 +39,55 @@
           </p>
         </div>
 
+        <!-- 记住我 -->
         <div class="mb-4 flex items-center space-x-2">
           <input type="checkbox" v-model="form.remember" id="remember" />
           <label for="remember" class="text-gray-700">记住我</label>
         </div>
 
+        <!-- 提交按钮 -->
         <button
             type="submit"
-            class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
             :disabled="form.processing"
         >
           登录
         </button>
-
-        <p v-if="form.errors.general" class="text-red-500 text-sm mt-2 text-center">
-          {{ form.errors.general }}
-        </p>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { useForm, usePage } from '@inertiajs/vue3'
 
 const props = defineProps({
-  guard: String,
+  guard: {
+    type: String,
+    default: 'admin'
+  },
 })
 
+const page = usePage()
+
+// flash 消息
+const flash = page.props.value.flash || {}
+
+// 登录表单
 const form = useForm({
   email: '',
   password: '',
   remember: false,
-  errors: {},
-  general: '',
 })
 
+// 提交函数
 const submit = () => {
-  form.post(
-      props.guard === 'admin' ? route('admin.login.submit') : route('user.login.submit'),
-      {
-        onError: (errors) => {
-          form.errors = errors
-          if (errors.email) {
-            form.general = errors.email
-          }
-        },
-      }
-  )
+  const routeName = props.guard === 'admin' ? 'admin.login.submit' : 'user.login.submit'
+
+  form.post(routeName, {
+    onSuccess: () => {
+      form.reset('password')
+    },
+  })
 }
 </script>
